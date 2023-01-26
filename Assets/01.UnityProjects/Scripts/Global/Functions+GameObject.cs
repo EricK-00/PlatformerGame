@@ -1,26 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public static partial class Functions
 {
-    //! Æ¯Á¤ °ÔÀÓ¿ÀºêÁ§Æ®ÀÇ ÀÚ½ÄÀ» Å½»öÇØ¼­ Ã£´Â ¸Ş¼­µå
-    //private static GameObject GetChildGameObject(this GameObject parentGO, string childName)
-    //{
-    //    for (int i = 0; i < parentGO.transform.childCount; i++)
-    //    {
-    //        if (parentGO.transform.GetChild(i).name.Equals(childName))
-    //        {
-    //            return parentGO.transform.GetChild(i).gameObject;
-    //        }
-    //    }
-
-    //    return default;
-    //}
-
-    //! Æ¯Á¤ °ÔÀÓ¿ÀºêÁ§Æ®ÀÇ ÀÚ½ÄµéÀ» Å½»öÇØ¼­ Ã£´Â ¸Ş¼­µå
+    //! íŠ¹ì • ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ ìì‹ë“¤ì„ íƒìƒ‰í•´ì„œ ì°¾ëŠ” ë©”ì„œë“œ
     public static GameObject FindChildGameObject(this GameObject parentGO, string childName)
     {
         GameObject searchTarget;
@@ -43,7 +27,7 @@ public static partial class Functions
         return null;
     }
 
-    //! ·çÆ® °ÔÀÓ¿ÀºêÁ§Æ®¸¦ Å½»öÇØ¼­ Ã£´Â ¸Ş¼­µå
+    //! ë£¨íŠ¸ ê²Œì„ì˜¤ë¸Œì íŠ¸ë¥¼ íƒìƒ‰í•´ì„œ ì°¾ëŠ” ë©”ì„œë“œ
     public static GameObject GetRootGameObject(string goName)
     {
         Scene activeScene = GetActiveScene();
@@ -60,8 +44,46 @@ public static partial class Functions
         return default;
     }
 
+    //! í˜„ì¬ í™œì„±í™”ëœ ì”¬ì„ ê°€ì ¸ì˜¤ëŠ” ë©”ì„œë“œ
     public static Scene GetActiveScene()
     {
         return SceneManager.GetActiveScene();
     }
+
+    //! RectTransformì—ì„œ sizeDeltaë¥¼ ë¦¬í„´í•˜ëŠ” í•¨ìˆ˜
+    public static Vector2 GetRectSizeDelta(this GameObject go)
+    {
+        return go.GetComponent<RectTransform>().sizeDelta;
+    }
+
+    //! localPosition ë³€ê²½í•˜ëŠ” ë©”ì„œë“œ
+    public static void SetLocalPos(this GameObject obj, float x, float y, float z)
+    {
+        obj.GetComponent<RectTransform>().localPosition = new Vector3(x, y, z);
+    }
+
+    #region Translate wrapper method for Vector2
+    public static void Translate(this Transform transform, Vector2 moveVector)
+    {
+        transform.Translate(moveVector.x, moveVector.y, 0f);
+    }
+    #endregion
+
+    #region GetComponent wrapper method
+    public static T GetComponentMust<T>(this GameObject go) where T : Component
+    {
+        T component = go.GetComponent<T>();
+        Functions.Assert(component.IsValid<T>(), $"[{go.name}] {component.GetType().Name} ì—†ìŒ");
+
+        return component;
+    }
+    public static T GetComponentMustt<T>(this GameObject go)
+    {
+        T component = go.GetComponent<T>();
+        Functions.Assert(component.IsValid<T>(), $"[{go.name}] {component.GetType().Name} ì—†ìŒ");
+
+        return component;
+    }
+    #endregion
+
 }
