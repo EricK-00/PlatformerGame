@@ -57,10 +57,17 @@ public static partial class Functions
     }
 
     //! localPosition 변경하는 메서드
-    public static void SetLocalPos(this GameObject obj, float x, float y, float z)
+    public static void SetLocalPos(this GameObject go, float x, float y, float z)
     {
-        obj.GetComponent<RectTransform>().localPosition = new Vector3(x, y, z);
+        go.GetComponent<RectTransform>().localPosition = new Vector3(x, y, z);
     }
+
+    //! localPosition 연산하는 메서드
+    public static void AddLocalPos(this GameObject go, float x, float y, float z)
+    {
+        go.transform.localPosition = go.transform.localPosition + new Vector3(x, y, z);
+    }
+
 
     #region Translate wrapper method for Vector2
     public static void Translate(this Transform transform, Vector2 moveVector)
