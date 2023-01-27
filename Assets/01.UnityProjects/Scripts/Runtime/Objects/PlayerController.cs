@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour
 
         _rigidbody2D.velocity = Vector2.zero;
         isDead = true;
+
+        GameManager.instance.OnPlayerDead();
     }
 
     //! 트리거 충돌 감지 처리 메서드

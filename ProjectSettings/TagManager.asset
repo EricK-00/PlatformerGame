@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ObjectCanvas
+    uniqueID: 2268648397
+    locked: 0
+  - name: UICanvas
+    uniqueID: 1481245305
+    locked: 0

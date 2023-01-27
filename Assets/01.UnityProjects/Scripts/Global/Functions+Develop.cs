@@ -20,7 +20,7 @@ public static partial class Functions
     }
 #endregion
 
-#region Assert for debug
+    #region Assert for debug
     [System.Diagnostics.Conditional("DEBUG_MODE")]
     public static void Assert(bool condition)
     {
@@ -37,6 +37,16 @@ public static partial class Functions
 #endif
     }
     #endregion
+
+    #region LogWarning
+    [System.Diagnostics.Conditional("DEBUG_MODE")]
+    public static void LogWarning(object message)
+    {
+#if DEBUG_MODE
+        Debug.LogWarning(message);
+#endif
+    }
+#endregion
 
     #region Valid Function
     public static bool IsValid<T>(this T refType)

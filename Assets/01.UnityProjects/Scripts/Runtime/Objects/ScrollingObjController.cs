@@ -6,14 +6,14 @@ public class ScrollingObjController : MonoBehaviour
 {
     public string objName;
     public int scrollingObjCount;
+    public float scrollingSpeed = 100;
 
-    private const float SCROLLING_SPEED = 500;
-    private GameObject obj;
-    private Vector2 objSize;
-    private List<GameObject> scrollingObjPool = new List<GameObject>();
+    protected GameObject obj;
+    protected Vector2 objSize;
+    protected List<GameObject> scrollingObjPool = new List<GameObject>();
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         obj = gameObject.FindChildGameObject(objName);
         objSize = obj.GetRectSizeDelta();
@@ -33,38 +33,38 @@ public class ScrollingObjController : MonoBehaviour
 
         obj.SetActive(false);
 
-        //오브젝트 위치 초기화
-        //float xPos = 0f;
-        float xPos = objSize.x * (scrollingObjCount - 1) * -1 * 0.5f;
-        for (int i = 0; i < scrollingObjCount; i++)
-        {
-            //xPos = (i - 1) * objSize.x;
-            scrollingObjPool[i].SetLocalPos(xPos, 0f, 0f);
-            xPos += objSize.x;
-        }
+        InitObjsPosition();
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         if (scrollingObjPool == null || scrollingObjPool.Count <= 0)
         {
             return;
         }
 
-        for (int i = 0; i < scrollingObjCount; i++)
+        if (!GameManager.instance.isGameOver)
         {
-            scrollingObjPool[i].AddLocalPos(SCROLLING_SPEED * Time.deltaTime * -1f, 0f, 0f);
-        }
+            //오브젝트 이동
+            for (int i = 0; i < scrollingObjCount; i++)
+            {
+                scrollingObjPool[i].AddLocalPos(scrollingSpeed * Time.deltaTime * -1f, 0f, 0f);
+            }
 
-        float lastObjCurrentXPos =
-            scrollingObjPool[scrollingObjCount - 1].transform.localPosition.x;
-        if (lastObjCurrentXPos <= objSize.x * 0.5f)
-        {
-            float lastObjInitXPos = Mathf.Floor(scrollingObjCount * 0.5f) * objSize.x + (objSize.x * 0.45f);
-            scrollingObjPool[0].SetLocalPos(lastObjInitXPos, 0f, 0f);
-            scrollingObjPool.Add(scrollingObjPool[0]);
-            scrollingObjPool.RemoveAt(0);
+            RepositionObj();
         }
+    }
+
+    protected virtual void InitObjsPosition()
+    {
+        //오브젝트 위치 초기화
+        /* Do something */
+    }
+
+    protected virtual void RepositionObj()
+    {
+        //오브젝트 위치 재지정
+        /* Do something */
     }
 }
