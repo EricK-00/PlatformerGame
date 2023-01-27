@@ -8,30 +8,33 @@ public class ScrollingObjController : MonoBehaviour
     public int scrollingObjCount;
     public float scrollingSpeed = 100;
 
-    protected GameObject obj;
+    protected GameObject objPrefab;
     protected Vector2 objSize;
     protected List<GameObject> scrollingObjPool = new List<GameObject>();
+    protected float defaultYPos;
 
     // Start is called before the first frame update
     public virtual void Start()
     {
-        obj = gameObject.FindChildGameObject(objName);
-        objSize = obj.GetRectSizeDelta();
+        objPrefab = gameObject.FindChildGameObject(objName);
+        Functions.Assert(objPrefab != null);
 
-        Functions.Assert(obj != null);
+        objSize = objPrefab.GetRectSizeDelta();
+        defaultYPos = objPrefab.transform.localPosition.y;
+
         if (scrollingObjPool.Count <= 0)
         {
             for (int i = 0; i < scrollingObjCount; i++)
             {
-                GameObject go = Instantiate(obj,
-                    obj.transform.position,
-                    obj.transform.rotation, transform);
+                GameObject go = Instantiate(objPrefab,
+                    objPrefab.transform.position,
+                    objPrefab.transform.rotation, transform);
 
                 scrollingObjPool.Add(go);
             }
         }
 
-        obj.SetActive(false);
+        objPrefab.SetActive(false);
 
         InitObjsPosition();
     }

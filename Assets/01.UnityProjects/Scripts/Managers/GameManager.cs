@@ -16,13 +16,6 @@ public class GameManager : MonoBehaviour
     private GameObject gameOverUI;
     private int score = 0;
 
-    public class A
-    {
-
-    }
-
-    public A a;
-
     private void Awake()
     {
         if (instance == null)

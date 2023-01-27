@@ -32,7 +32,7 @@ public class ScrollingBgController : ScrollingObjController
         float lastObjCurrentXPos = scrollingObjPool[scrollingObjCount - 1].transform.localPosition.x;
         if (lastObjCurrentXPos <= objSize.x * 0.5f)
         {
-            float lastObjInitXPos = Mathf.Floor(scrollingObjCount * 0.5f) * objSize.x + (objSize.x * 0.45f);
+            float lastObjInitXPos = Mathf.Floor(scrollingObjCount * 0.5f) * objSize.x + (objSize.x * 0.48f);
             scrollingObjPool[0].SetLocalPos(lastObjInitXPos, 0f, 0f);
             scrollingObjPool.Add(scrollingObjPool[0]);
             scrollingObjPool.RemoveAt(0);
