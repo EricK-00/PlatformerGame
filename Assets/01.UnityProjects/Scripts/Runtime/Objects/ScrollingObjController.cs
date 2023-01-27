@@ -7,7 +7,7 @@ public class ScrollingObjController : MonoBehaviour
     public string objName;
     public int scrollingObjCount;
 
-    private const float SCROLLING_SPEED = 500f;
+    private const float SCROLLING_SPEED = 500;
     private GameObject obj;
     private Vector2 objSize;
     private List<GameObject> scrollingObjPool = new List<GameObject>();
@@ -33,6 +33,7 @@ public class ScrollingObjController : MonoBehaviour
 
         obj.SetActive(false);
 
+        //오브젝트 위치 초기화
         //float xPos = 0f;
         float xPos = objSize.x * (scrollingObjCount - 1) * -1 * 0.5f;
         for (int i = 0; i < scrollingObjCount; i++)
@@ -56,9 +57,12 @@ public class ScrollingObjController : MonoBehaviour
             scrollingObjPool[i].AddLocalPos(SCROLLING_SPEED * Time.deltaTime * -1f, 0f, 0f);
         }
 
-        float lastScrollingObjXPos = scrollingObjPool[scrollingObjCount - 1].transform.localPosition.x;
-        if (lastScrollingObjXPos <= objSize.x * 0.5f)
+        float lastObjCurrentXPos =
+            scrollingObjPool[scrollingObjCount - 1].transform.localPosition.x;
+        if (lastObjCurrentXPos <= objSize.x * 0.5f)
         {
+            float lastObjInitXPos = Mathf.Floor(scrollingObjCount * 0.5f) * objSize.x + (objSize.x * 0.45f);
+            scrollingObjPool[0].SetLocalPos(lastObjInitXPos, 0f, 0f);
             scrollingObjPool.Add(scrollingObjPool[0]);
             scrollingObjPool.RemoveAt(0);
         }
